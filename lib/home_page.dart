@@ -70,6 +70,7 @@ class _HomePageState extends State<HomePage> {
   _addCard(String text) {
     cards.add(text);
     childres.add([]);
+    _cardTextController.text = "";
     setState(() {});
   }
 
@@ -117,6 +118,7 @@ class _HomePageState extends State<HomePage> {
 
   _addCardTask(int index, String text) {
     childres[index].add(text);
+    _taskTextController.text = "";
     setState(() {});
   }
 

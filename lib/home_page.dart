@@ -1,4 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_list_drag_and_drop/drag_and_drop_list.dart';
+import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
+import 'package:reorderables/reorderables.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -122,6 +125,13 @@ class _HomePageState extends State<HomePage> {
     setState(() {});
   }
 
+  _handleReOrder(int oldIndex, int newIndex, int index) {
+    var oldValue = childres[index][oldIndex];
+    childres[index][oldIndex] = childres[index][newIndex];
+    childres[index][newIndex] = oldValue;
+    setState(() {});
+  }
+
   _buildBody() {
     return ListView.builder(
       scrollDirection: Axis.horizontal,
@@ -196,7 +206,11 @@ class _HomePageState extends State<HomePage> {
     );
   }
 
-  Container _buildCard(BuildContext context, int index) {
+  Widget _buildCard(BuildContext context, int index) {
+    // return Container(
+    //         width: 300.0,
+    //   child: ,
+    // );
     return Container(
       child: Stack(
         children: <Widget>[
@@ -216,6 +230,7 @@ class _HomePageState extends State<HomePage> {
             margin: const EdgeInsets.all(16.0),
             height: MediaQuery.of(context).size.height * 0.8,
             child: Column(
+              crossAxisAlignment: CrossAxisAlignment.start,
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.all(16.0),
@@ -227,20 +242,83 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                Expanded(
-                  child: ListView.separated(
-                    separatorBuilder: (context, index) {
-                      return SizedBox(
-                        height: 5.0,
-                      );
-                    },
-                    itemCount: childres[index].length + 1,
-                    itemBuilder: (context, innerIndex) {
-                      if(innerIndex == childres[index].length) return _buildAddCardTaskWidget(context, index);
-                      return _buildCardTask(index, innerIndex);
-                    },
+                // Expanded(
+                //   child: ListView.separated(
+                //     separatorBuilder: (context, index) {
+                //       return SizedBox(
+                //         height: 5.0,
+                //       );
+                //     },
+                //     itemCount: childres[index].length + 1,
+                //     itemBuilder: (context, innerIndex) {
+                //       if(innerIndex == childres[index].length) return _buildAddCardTaskWidget(context, index);
+                //       return _buildCardTask(index, innerIndex);
+                //     },
+                //   ),
+                // ),
+                // SingleChildScrollView(
+                //   child: Container(
+                //     height: MediaQuery.of(context).size.height * 0.7,
+                //     child: ReorderableColumn(
+
+                //       crossAxisAlignment: CrossAxisAlignment.start,
+                //       children: <Widget>[
+                //         for (int innerIndex = 0;
+                //             innerIndex < childres[index].length;
+                //             innerIndex++)
+                //           Container(
+                //             key: Key(innerIndex.toString()),
+                //             child: _buildCardTask(index, innerIndex),
+                //           ),
+                //         Container(
+                //             key: Key("add_$index"),
+                //             child: _buildAddCardTaskWidget(context, index)),
+                //       ],
+                //       onReorder: (int oldIndex, int newIndex) {
+                //         _handleReOrder(oldIndex, newIndex, index);
+                //       },
+                //     ),
+                //   ),
+                // ),
+                SingleChildScrollView(
+                  child: Container(
+                    height: MediaQuery.of(context).size.height * 0.7,
+                    child: DragAndDropList<String>(
+                      childres[index],
+                      itemBuilder: (BuildContext context, item) {
+                        return _buildCardTask(
+                            index, childres[index].indexOf(item));
+                      },
+                      onDragFinish: (oldIndex, newIndex) {
+                        _handleReOrder(oldIndex, newIndex, index);
+                      },
+                      canBeDraggedTo: (one, two) => true,
+                      dragElevation: 8.0,
+                    ),
                   ),
-                )
+                ),
+                // SingleChildScrollView(
+                //   child: Container(
+                //     height: MediaQuery.of(context).size.height * 0.7,
+                //     child: ReorderableListView(
+                //       onReorder: (int oldIndex, int newIndex) {
+                //         _handleReOrder(oldIndex, newIndex, index);
+                //       },
+                //       children: <Widget>[
+                //         for (int innerIndex = 0;
+                //             innerIndex < childres[index].length;
+                //             innerIndex++)
+                //           Container(
+                //             key: Key(innerIndex.toString()),
+                //             child: _buildCardTask(index, innerIndex),
+                //           ),
+                //         Container(
+                //             key: Key("add_$index"),
+                //             child: _buildAddCardTaskWidget(context, index)),
+                //       ],
+                //     ),
+                //   ),
+                // ),
               ],
             ),
           ),
@@ -274,9 +352,11 @@ class _HomePageState extends State<HomePage> {
 
   Container _buildCardTask(int index, int innerIndex) {
     return Container(
+      width: 300.0,
       margin: const EdgeInsets.symmetric(horizontal: 8.0, vertical: 4.0),
       child: Draggable<dynamic>(
         feedback: Material(
+          elevation: 5.0,
           child: Container(
             width: 284.0,
             padding: const EdgeInsets.all(16.0),

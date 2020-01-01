@@ -1,7 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_list_drag_and_drop/drag_and_drop_list.dart';
-import 'package:flutter_reorderable_list/flutter_reorderable_list.dart';
-import 'package:reorderables/reorderables.dart';
 
 class HomePage extends StatefulWidget {
   @override
@@ -242,44 +240,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                // Expanded(
-                //   child: ListView.separated(
-                //     separatorBuilder: (context, index) {
-                //       return SizedBox(
-                //         height: 5.0,
-                //       );
-                //     },
-                //     itemCount: childres[index].length + 1,
-                //     itemBuilder: (context, innerIndex) {
-                //       if(innerIndex == childres[index].length) return _buildAddCardTaskWidget(context, index);
-                //       return _buildCardTask(index, innerIndex);
-                //     },
-                //   ),
-                // ),
-                // SingleChildScrollView(
-                //   child: Container(
-                //     height: MediaQuery.of(context).size.height * 0.7,
-                //     child: ReorderableColumn(
-
-                //       crossAxisAlignment: CrossAxisAlignment.start,
-                //       children: <Widget>[
-                //         for (int innerIndex = 0;
-                //             innerIndex < childres[index].length;
-                //             innerIndex++)
-                //           Container(
-                //             key: Key(innerIndex.toString()),
-                //             child: _buildCardTask(index, innerIndex),
-                //           ),
-                //         Container(
-                //             key: Key("add_$index"),
-                //             child: _buildAddCardTaskWidget(context, index)),
-                //       ],
-                //       onReorder: (int oldIndex, int newIndex) {
-                //         _handleReOrder(oldIndex, newIndex, index);
-                //       },
-                //     ),
-                //   ),
-                // ),
                 SingleChildScrollView(
                   child: Container(
                     height: MediaQuery.of(context).size.height * 0.7,
@@ -297,28 +257,6 @@ class _HomePageState extends State<HomePage> {
                     ),
                   ),
                 ),
-                // SingleChildScrollView(
-                //   child: Container(
-                //     height: MediaQuery.of(context).size.height * 0.7,
-                //     child: ReorderableListView(
-                //       onReorder: (int oldIndex, int newIndex) {
-                //         _handleReOrder(oldIndex, newIndex, index);
-                //       },
-                //       children: <Widget>[
-                //         for (int innerIndex = 0;
-                //             innerIndex < childres[index].length;
-                //             innerIndex++)
-                //           Container(
-                //             key: Key(innerIndex.toString()),
-                //             child: _buildCardTask(index, innerIndex),
-                //           ),
-                //         Container(
-                //             key: Key("add_$index"),
-                //             child: _buildAddCardTaskWidget(context, index)),
-                //       ],
-                //     ),
-                //   ),
-                // ),
               ],
             ),
           ),

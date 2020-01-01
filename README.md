@@ -9,3 +9,4 @@ Supports:
 - Flutter Web
 - Flutter Desktop (golang version)
 - Flutter Mobile
+
